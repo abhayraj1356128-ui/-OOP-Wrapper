@@ -1,0 +1,179 @@
+
+# Employee Management System - OOP Wrapper Project
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def display(self):
+        print(f"Name: {self.name}")
+        print(f"Age: {self.age}")
+
+
+class Employee(Person):
+    def __init__(self, name, age, employee_id="E000", salary=0.0):
+        # Constructor supports different ways of creating objects
+        super().__init__(name, age)
+        self.__employee_id = employee_id
+        self.__salary = salary
+
+    # Getter and setter for employee ID
+    @property
+    def employee_id(self):
+        return self.__employee_id
+
+    @employee_id.setter
+    def employee_id(self, value):
+        if value:
+            self.__employee_id = value
+
+    # Getter and setter for salary
+    @property
+    def salary(self):
+        return self.__salary
+
+    @salary.setter
+    def salary(self, value):
+        if value >= 0:
+            self.__salary = value
+        else:
+            raise ValueError("Salary cannot be negative.")
+
+    def display(self):
+        print("\nEmployee Details:")
+        super().display()
+        print(f"Employee ID: {self.__employee_id}")
+        print(f"Salary: ${self.__salary:.2f}")
+
+
+class Manager(Employee):
+    def __init__(self, name, age, employee_id="M001",
+                 salary=0.0, department="HR"):
+        super().__init__(name, age, employee_id, salary)
+        self.department = department
+
+    def display(self):
+        print("\nManager Details:")
+        super().display()
+        print(f"Department: {self.department}")
+
+
+class Developer(Employee):
+    def __init__(self, name, age, employee_id="D001",
+                 salary=0.0, programming_language="Python"):
+        super().__init__(name, age, employee_id, salary)
+        self.programming_language = programming_language
+
+    def display(self):
+        print("\nDeveloper Details:")
+        super().display()
+        print(f"Programming Language: {self.programming_language}")
+
+
+# Check inheritance using issubclass()
+print("--- Python OOP Project: Employee Management System ---")
+print("Manager inherits Employee:", issubclass(Manager, Employee))
+print("Developer inherits Employee:", issubclass(Developer, Employee))
+
+# Store created objects
+records = []
+
+
+def create_person():
+    name = input("Enter Name: ")
+    age = int(input("Enter Age: "))
+
+    person = Person(name, age)
+    records.append(person)
+    print(f"Person created with name: {name} and age: {age}.")
+
+
+def create_employee():
+    name = input("Enter Name: ")
+    age = int(input("Enter Age: "))
+    employee_id = input("Enter Employee ID: ")
+    salary = float(input("Enter Salary: "))
+
+    employee = Employee(name, age, employee_id, salary)
+    records.append(employee)
+    print("Employee created successfully.")
+
+
+def create_manager():
+    name = input("Enter Name: ")
+    age = int(input("Enter Age: "))
+    employee_id = input("Enter Employee ID: ")
+    salary = float(input("Enter Salary: "))
+    department = input("Enter Department: ")
+
+    manager = Manager(
+        name, age, employee_id, salary, department
+    )
+    records.append(manager)
+    print("Manager created successfully.")
+
+
+def create_developer():
+    name = input("Enter Name: ")
+    age = int(input("Enter Age: "))
+    employee_id = input("Enter Employee ID: ")
+    salary = float(input("Enter Salary: "))
+    language = input("Enter Programming Language: ")
+
+    developer = Developer(
+        name, age, employee_id, salary, language
+    )
+    records.append(developer)
+    print("Developer created successfully.")
+
+
+def show_details():
+    if not records:
+        print("No records available. Create a record first.")
+        return
+
+    print("\n--- All Records ---")
+    for index, person in enumerate(records, start=1):
+        print(f"\nRecord {index}:")
+        person.display()
+
+
+def main():
+    while True:
+        print("\n--- Choose an Operation ---")
+        print("1. Create a Person")
+        print("2. Create an Employee")
+        print("3. Create a Manager")
+        print("4. Create a Developer")
+        print("5. Show Details")
+        print("6. Exit")
+
+        choice = input("Enter your choice: ")
+
+        try:
+            if choice == "1":
+                create_person()
+            elif choice == "2":
+                create_employee()
+            elif choice == "3":
+                create_manager()
+            elif choice == "4":
+                create_developer()
+            elif choice == "5":
+                show_details()
+            elif choice == "6":
+                print("\nExiting the system.")
+                print("Goodbye!")
+                break
+            else:
+                print("Invalid choice. Please select 1-6.")
+
+        except ValueError as error:
+            print("Invalid input:", error)
+        except Exception as error:
+            print("An unexpected error occurred:", error)
+
+
+if __name__ == "__main__":
+    main()
